@@ -14,7 +14,7 @@ import {
 import React from "react";
 import logo from "../logo.svg";
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaSearch, FaUser } from "react-icons/fa";
+import { FaShoppingCart, FaSearch, FaUser, FaHeart } from "react-icons/fa";
 
 export default function NavBar() {
   return (
@@ -47,6 +47,32 @@ export default function NavBar() {
               color="white"
               _hover={{ background: "transparent" }}
               icon={<FaShoppingCart fontSize="24px" />} // Adjust the fontSize here
+            />
+
+            <Text
+              backgroundColor={"red"}
+              width={"20px"}
+              height={"20px"}
+              borderRadius={"full"}
+              fontSize={"xs"}
+              color={"white"}
+              textAlign={"center"}
+              position={"absolute"}
+              top={0}
+              right={0}
+            >
+              0
+            </Text>
+          </HStack>
+        </ChakraLink>
+
+        <ChakraLink as={Link} to="/favorites">
+          <HStack position={"relative"}>
+            <IconButton
+              background="transparent"
+              color="white"
+              _hover={{ background: "transparent" }}
+              icon={<FaHeart fontSize="24px" />} // Adjust the fontSize here
             />
 
             <Text
