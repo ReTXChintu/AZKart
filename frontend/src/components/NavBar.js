@@ -9,12 +9,12 @@ import {
   IconButton,
   Center,
   VStack,
-  Button,
 } from "@chakra-ui/react";
 import React from "react";
 import logo from "../logo.svg";
 import { Link } from "react-router-dom";
 import { FaShoppingCart, FaSearch, FaUser, FaHeart } from "react-icons/fa";
+import { LoginButton } from "./CommonButtons";
 
 export default function NavBar() {
   return (
@@ -102,17 +102,7 @@ export default function NavBar() {
 
           <VStack spacing={0}>
             <Text color={"white"}>Hello</Text>
-            <Text
-              as={Button}
-              background={"transparent"}
-              color={"white"}
-              _hover={{
-                background: "transparent",
-                textDecoration: "underline",
-              }}
-            >
-              Login
-            </Text>
+            <LoginButton />
           </VStack>
         </HStack>
       </HStack>

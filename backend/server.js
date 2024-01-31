@@ -1,7 +1,10 @@
 const express = require("express");
 const app = express();
+require ('dotenv').config();
 
-app.post('/login', (req,res) => {})
+app.post('/login', (req,res) => {
+  
+})
 app.post('/signup', (req,res) => {})
 app.post('/addToCart', (req,res) => {})
 app.post('/removeFromCart', (req,res) => {})
