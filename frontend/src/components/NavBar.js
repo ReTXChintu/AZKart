@@ -15,8 +15,10 @@ import logo from "../logo.svg";
 import { Link } from "react-router-dom";
 import { FaShoppingCart, FaSearch, FaUser, FaHeart } from "react-icons/fa";
 import { LoginButton } from "./CommonButtons";
+import { useSelector } from "react-redux";
 
 export default function NavBar() {
+  const user = useSelector((state) => state.user);
   return (
     <Center
       boxShadow="0px 4px 6px rgba(0, 0, 0, 0.1)"
@@ -102,7 +104,7 @@ export default function NavBar() {
 
           <VStack spacing={0}>
             <Text color={"white"}>Hello</Text>
-            <LoginButton />
+            {user ? <Text>user.name</Text> : <LoginButton />}
           </VStack>
         </HStack>
       </HStack>
