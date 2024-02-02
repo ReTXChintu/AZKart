@@ -1,25 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userSchema");
+const authenticateUser = require("../middlewares/authenticateUser");
 
-router.post("/", async (req, res) => {
-  console.log(req.body);
-  const { name, email, password } = req.body;
+router.post("/", authenticateUser, async (req, res) => {
+  const { productId } = req.body;
 
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findById(req.user.id);
 
-    if (user) res.status(400).json("User exists");
+    if (!user) return res.status(400).json("invalid user");
 
-    const newUser = new User({
-      name: name,
-      email: email,
-      password: password,
-    });
+    user.favorites.pull(productId);
 
-    await newUser.save();
+    const newUser = await user.save();
 
-    res.status(200).json("User Created Successfully");
+    res.status(200).json({ favorites: newUser.favorites });
   } catch (error) {
     res.status(500).json("Internal Server Error");
     console.log(error);

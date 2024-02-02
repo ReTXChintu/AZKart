@@ -1,11 +1,11 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Center, Image } from "@chakra-ui/react";
 import React from "react";
 import footerImage from "../images/footerImage.png";
 
 export default function Footer() {
   return (
-    <Box w={"100vw"} overflow={"hidden"} mt={5}>
+    <Center overflow={"hidden"} bgColor={"#f7f7f7"}>
       <Image src={footerImage} />
-    </Box>
+    </Center>
   );
 }

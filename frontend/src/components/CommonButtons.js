@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Button,
   Center,
@@ -17,10 +18,22 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { FaEnvelope, FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
+import {
+  FaCartPlus,
+  FaEnvelope,
+  FaEye,
+  FaEyeSlash,
+  FaHeart,
+  FaKey,
+  FaShare,
+  FaShoppingBag,
+  FaShoppingCart,
+  FaUser,
+} from "react-icons/fa";
 import { changeToken } from "../redux/slices/tokenSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateFavorites } from "../redux/slices/favoriteSlice";
+import { updateCart } from "../redux/slices/cartSlice";
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 export function LoginButton() {
@@ -66,9 +79,8 @@ export function LoginButton() {
         duration: 3000,
         isClosable: true,
       });
-      // localStorage.setItem('azkartJwt', result.token);
+      localStorage.setItem("azkartJwt", result.token);
       dispatch(changeToken(result.token));
-
     } catch (error) {
       console.log(error);
     }
@@ -274,5 +286,162 @@ export function LoginButton() {
         </DrawerContent>
       </Drawer>
     </>
+  );
+}
+
+export function FavoriteButton({ product }) {
+  const toast = useToast();
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.token);
+  const favorites = useSelector((state) => state.favorites);
+  const isFavorite = favorites.includes(product.id);
+
+  const addToFav = async () => {
+    const response = await fetch(`${serverUrl}/addToFav`, {
+      method: "POST",
+      headers: {
+        authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId: product.id }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      toast({
+        title: "Adding to favorites failed",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    dispatch(updateFavorites(result.favorites));
+  };
+
+  const removeFromFav = async () => {
+    const response = await fetch(`${serverUrl}/removeFromFav`, {
+      method: "POST",
+      headers: {
+        authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId: product.id }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      toast({
+        title: "Adding to favorites failed",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    dispatch(updateFavorites(result.favorites));
+  };
+
+  const toggleFavorite = async () => {
+    !isFavorite ? await addToFav() : await removeFromFav();
+  };
+
+  return (
+    <IconButton
+      icon={<FaHeart style={{ color: isFavorite ? "red" : "" }} />}
+      borderRadius={"full"}
+      position={"absolute"}
+      top={0}
+      right={0}
+      onClick={toggleFavorite}
+    />
+  );
+}
+
+export function BuyNowButton() {
+  return (
+    <Button colorScheme="whatsapp" rightIcon={<FaShoppingBag />}>
+      Buy Now
+    </Button>
+  );
+}
+
+export function AddToCartButton({ productId }) {
+  const cart = useSelector((state) => state.cart);
+  const isInCart = cart.includes(productId);
+  const toast = useToast();
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.token);
+
+  const addToCart = async () => {
+    const response = await fetch(`${serverUrl}/addToCart`, {
+      method: "POST",
+      headers: {
+        authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId: productId }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      toast({
+        title: "Adding to cart failed",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    dispatch(updateCart(result.cart));
+  };
+
+  const removeFromCart = async () => {
+    const response = await fetch(`${serverUrl}/removeFromCart`, {
+      method: "POST",
+      headers: {
+        authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId: productId }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      toast({
+        title: "Adding to cart failed",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    dispatch(updateCart(result.cart));
+  };
+
+  return isInCart ? (
+    <Button colorScheme="telegram" rightIcon={<FaShoppingCart />} onClick={removeFromCart}>
+      Remove from cart
+    </Button>
+  ) : (
+    <Button colorScheme="telegram" rightIcon={<FaCartPlus />} onClick={addToCart}>
+      Add to cart
+    </Button>
+  );
+}
+
+export function ShareButton() {
+  return (
+    <Button colorScheme="purple" rightIcon={<FaShare />}>
+      Share
+    </Button>
   );
 }

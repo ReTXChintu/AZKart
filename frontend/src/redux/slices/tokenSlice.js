@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+const storedToken = localStorage.getItem("azkartJwt");
 
 const tokenSlice = createSlice({
   name: "Token",
-  initialState: null,
+  initialState: storedToken ? storedToken : null,
   reducers: {
     changeToken: (state, action) => {
       return action.payload;

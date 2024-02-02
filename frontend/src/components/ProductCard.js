@@ -13,14 +13,17 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
-  Button,
   Spacer,
-  IconButton,
 } from "@chakra-ui/react";
 import { fakePriceGenerator } from "./utility";
-import { FaCartPlus, FaHeart, FaShare, FaShoppingBag } from "react-icons/fa";
+import {
+  AddToCartButton,
+  BuyNowButton,
+  FavoriteButton,
+  ShareButton,
+} from "./CommonButtons";
 
-const ProductCard = ({ product, isRandom }) => {
+const ProductCard = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [discount, setDiscount] = useState(0);
   const [fakePrice, setFakePrice] = useState(0);
@@ -33,11 +36,11 @@ const ProductCard = ({ product, isRandom }) => {
   }
 
   useEffect(() => {
-    const fakePriceFunction = fakePriceGenerator(product.price, isRandom);
+    const fakePriceFunction = fakePriceGenerator(product.price);
 
     setDiscount(fakePriceFunction.discount);
     setFakePrice(fakePriceFunction.fakePrice);
-  }, [product, isRandom]);
+  }, [product]);
 
   return (
     <Box
@@ -46,9 +49,10 @@ const ProductCard = ({ product, isRandom }) => {
       p="4"
       boxShadow="md"
       transition="transform 0.3s"
-      _hover={{ transform: "scale(1.05)" }}
       alignItems={"flex-start"}
+      bgColor={"#f7f7f7"}
       onClick={onOpen}
+      position={"relative"}
     >
       <Center p={2} borderRadius={"10px"} w={"100%"} h={"200px"}>
         <Image
@@ -61,18 +65,28 @@ const ProductCard = ({ product, isRandom }) => {
       <VStack alignItems={"flex-start"}>
         <Text whiteSpace={"nowrap"}>{truncateText(product.title)}</Text>
         <HStack spacing={2}>
-          <VStack spacing={0} alignItems={"flex-start"}>
+          <HStack alignItems={"flex-start"} spacing={2}>
             <Text color={"#938C1A"} textDecor={"line-through"} fontSize={"sm"}>
               ₹{(product.price * 100).toString().split(".")[0]}
             </Text>
             <Text color={"#938C1A"}>
               ₹{(fakePrice * 100).toString().split(".")[0]}
             </Text>
-          </VStack>
-
-          <Text color={"red"} fontSize={"xs"}>
-            {discount}% off
-          </Text>
+          </HStack>
+          <Box
+            bgColor={"#ff6e26"}
+            px={2}
+            py={1}
+            color={"white"}
+            borderRadius={"full"}
+            position={"absolute"}
+            top={0}
+            left={0}
+          >
+            <Text fontSize={"sm"} fontWeight={"bold"}>
+              {discount}% off
+            </Text>
+          </Box>
         </HStack>
       </VStack>
       <Modal isOpen={isOpen} onClose={onClose} size={"xl"} isCentered>
@@ -85,13 +99,7 @@ const ProductCard = ({ product, isRandom }) => {
               <HStack w={"100%"}>
                 <Box position={"relative"} w={"300%"}>
                   <Image src={product.image} w={"100%"} />
-                  <IconButton
-                    icon={<FaHeart style={{color: "red"}} />}
-                    borderRadius={"full"}
-                    position={"absolute"}
-                    top={0}
-                    right={0}
-                  />
+                  <FavoriteButton product={product} />
                 </Box>
                 <VStack alignItems={"flex-start"} h={"100%"}>
                   <Box maxH={"200px"} overflowY={"auto"}>
@@ -122,15 +130,9 @@ const ProductCard = ({ product, isRandom }) => {
               </HStack>
 
               <HStack>
-                <Button colorScheme="whatsapp" rightIcon={<FaShoppingBag />}>
-                  Buy Now
-                </Button>
-                <Button colorScheme="telegram" rightIcon={<FaCartPlus />}>
-                  Add to cart
-                </Button>
-                <Button colorScheme="purple" rightIcon={<FaShare />}>
-                  Share
-                </Button>
+                <BuyNowButton />
+                <AddToCartButton productId={product.id} />
+                <ShareButton />
               </HStack>
             </VStack>
           </ModalBody>
