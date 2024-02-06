@@ -42,7 +42,7 @@ export default function NavBar() {
       bgColor={"#2d2d38"}
       zIndex={10}
     >
-      <VStack w={{ base: "100%", md: "65%" }} spacing={0}>
+      <VStack w={{ base: "100%", md: "90%", lg: "80%", xl: "70%" }} spacing={0}>
         <HStack
           px={3}
           py={1}
@@ -71,7 +71,7 @@ export default function NavBar() {
               </InputRightElement>
             </InputGroup>
 
-            <HStack color={"gray.300"} fontSize={"xs"}>
+            <HStack color={"gray.300"} fontSize={"xs"} display={{base: "none", md: "flex"}}>
               <Text>power bank</Text>
               <Text>anbernic</Text>
               <Text>tablet</Text>
@@ -221,7 +221,7 @@ export default function NavBar() {
           >
             CATEGORIES
           </Button>
-          <HStack color={"white"} spacing={5}>
+          <HStack color={"white"} spacing={5} display={{base: "none", md: "flex"}}>
             <Text
               fontWeight={"bold"}
               cursor={"pointer"}

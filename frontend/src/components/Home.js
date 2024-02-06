@@ -15,12 +15,16 @@ import axios from "axios";
 import Corousel from "./Corousel";
 import Footer from "./Footer";
 import loginImage from "../images/Screenshot 2024-02-02 at 5.09.37 PM.png";
-import { FaStar } from "react-icons/fa";
+import loggedinImage from "../images/Screenshot 2024-02-06 221000.png";
+import loggedinImage2 from "../images/Screenshot 2024-02-06 223944.png";
+import { FaBookmark, FaStar } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   // const [hotDeals, setHotDeals] = useState([]);
   const [flashSale, setFlashSale] = useState([]);
   const [forYou, setForYou] = useState([]);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -40,10 +44,15 @@ export default function Home() {
 
   return (
     <>
-      <Center  overflowX="hidden" backgroundColor={"#f7f7f7"}>
-        <VStack w={{ base: "100%", md: "65%" }}>
+      <Center overflowX="hidden" backgroundColor={"#f7f7f7"}>
+        <VStack w={{ base: "100%", md: "90%", lg: "80%", xl: "70%" }}>
           <HStack w={"100%"} justifyContent={"space-between"}>
-            <VStack color={"black"} alignItems={"flex-start"}>
+            <VStack
+              color={"black"}
+              alignItems={"flex-start"}
+              display={{ base: "none", md: "flex" }}
+              w={"25%"}
+            >
               <Box
                 w={"100%"}
                 py={2}
@@ -172,54 +181,9 @@ export default function Home() {
                   Home Appliances and Wealth
                 </Text>
               </Box>
-              <Box
-                w={"100%"}
-                py={2}
-                px={1}
-                borderRadius={"5px"}
-                _hover={{ backgroundColor: "gray.200", fontWeight: "bold" }}
-              >
-                <Text
-                  fontSize={"sm"}
-                  cursor={"pointer"}
-                  _hover={{ color: "#ff6e26" }}
-                >
-                  Home Appliances and Wealth
-                </Text>
-              </Box>
-              <Box
-                w={"100%"}
-                py={2}
-                px={1}
-                borderRadius={"5px"}
-                _hover={{ backgroundColor: "gray.200", fontWeight: "bold" }}
-              >
-                <Text
-                  fontSize={"sm"}
-                  cursor={"pointer"}
-                  _hover={{ color: "#ff6e26" }}
-                >
-                  Home Appliances and Wealth
-                </Text>
-              </Box>
-              <Box
-                w={"100%"}
-                py={2}
-                px={1}
-                borderRadius={"5px"}
-                _hover={{ backgroundColor: "gray.200", fontWeight: "bold" }}
-              >
-                <Text
-                  fontSize={"sm"}
-                  cursor={"pointer"}
-                  _hover={{ color: "#ff6e26" }}
-                >
-                  Home Appliances and Wealth
-                </Text>
-              </Box>
             </VStack>
 
-            <VStack w={"50%"}>
+            <VStack w={{ base: "100%", md: "50%" }}>
               <Box w={"100%"}>
                 <Corousel />
               </Box>
@@ -232,28 +196,20 @@ export default function Home() {
                   borderRadius={"10px"}
                   position={"relative"}
                 >
-                  <Heading size={"xs"}>
+                  <Heading size="xs">
                     Top Rankings{" "}
-                    {
-                      <IconButton
-                        backgroundColor={"#ff6e26"}
-                        w={"10px"}
-                        borderBottom="10px solid whitesmoke"
-                        borderLeft="10px solid transparent"
-                        borderRight="10px solid transparent"
-                        _hover={""}
-                        cursor={"auto"}
-                        position={"absolute"}
-                        top={0}
-                        icon={
-                          <FaStar
-                            color="white"
-                            fontSize={"15px"}
-                            position={"absolute"}
-                          />
-                        }
-                      />
-                    }
+                    <IconButton
+                      position="absolute"
+                      top={0}
+                      right={0}
+                      variant="unstyled"
+                      color="white"
+                      aria-label="Bookmark"
+                      icon={<FaBookmark fontSize="20px" color="#ff6e26" />}
+                    />
+                    <Box position={"absolute"} top={3} right={6}>
+                      <FaStar color="white" fontSize="10px" />
+                    </Box>
                   </Heading>
                   <HStack justifyContent={"space-between"}>
                     <Image
@@ -296,15 +252,29 @@ export default function Home() {
               </HStack>
             </VStack>
 
-            <Box>
-              <Image src={loginImage} />
+            <Box display={{ base: "none", md: "flex" }} w={"25%"}>
+              {user ? (
+                <VStack maxH={"100%"}>
+                  <Image src={loggedinImage} />
+                  <Image src={loggedinImage2} />
+                </VStack>
+              ) : (
+                <Image src={loginImage} />
+              )}
             </Box>
           </HStack>
 
-          <VStack w={"100%"} alignItems={"flex-start"} spacing={5} my={3} bgColor={"white"} p={4}>
+          <VStack
+            w={"100%"}
+            alignItems={"flex-start"}
+            spacing={5}
+            my={3}
+            bgColor={"white"}
+            p={4}
+          >
             <HStack w={"100%"} justifyContent={"space-between"}>
               <HStack>
-                <Heading fontSize={"md"}>Fla⚡️h Sales</Heading>
+                <Heading fontSize={"md"}>Fla⚡️h Deals</Heading>
               </HStack>
               <Button variant={"ghost"} fontSize={"xs"}>
                 See more
@@ -323,33 +293,58 @@ export default function Home() {
             </Box>
           </VStack>
 
-          <VStack w={"100%"} alignItems={"flex-start"} spacing={5} my={3}>
+          <VStack
+            w={"100%"}
+            alignItems={"flex-start"}
+            spacing={5}
+            my={3}
+            bgColor={"white"}
+            p={4}
+          >
             <HStack w={"100%"} justifyContent={"space-between"}>
               <HStack>
-                <Heading>For You</Heading>
-                <Text>(Based on Previous Search)</Text>
+                <Heading fontSize={"md"}>Discover New</Heading>
               </HStack>
-              <Button variant={"ghost"} color={"blue"}>
-                View All{"  >>"}
+              <Button variant={"ghost"} fontSize={"xs"}>
+                See more
               </Button>
             </HStack>
             <Box position={"relative"} overflow={"hidden"} w={"100%"}>
               <HStack overflowX="auto" maxW={"100%"} overflowY={"hidden"}>
-                <Center
-                  position="sticky"
-                  left={0}
-                  backgroundColor="rgba(169, 169, 169, 0.7)"
-                  h="300px"
-                >
-                  <Text whiteSpace="nowrap" m={5}>
-                    For You
-                  </Text>
-                </Center>
                 {forYou.map((product) => (
                   <ProductCard
                     key={product.id}
                     product={product}
-                    isRandom={true}
+                    isRandom={false}
+                  />
+                ))}
+              </HStack>
+            </Box>
+          </VStack>
+
+          <VStack
+            w={"100%"}
+            alignItems={"flex-start"}
+            spacing={5}
+            my={3}
+            bgColor={"white"}
+            p={4}
+          >
+            <HStack w={"100%"} justifyContent={"space-between"}>
+              <HStack>
+                <Heading fontSize={"md"}>H🔥t Sales</Heading>
+              </HStack>
+              <Button variant={"ghost"} fontSize={"xs"}>
+                See more
+              </Button>
+            </HStack>
+            <Box position={"relative"} overflow={"hidden"} w={"100%"}>
+              <HStack overflowX="auto" maxW={"100%"} overflowY={"hidden"}>
+                {forYou.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    isRandom={false}
                   />
                 ))}
               </HStack>

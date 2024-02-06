@@ -8,6 +8,7 @@ import { updateFavorites } from "./redux/slices/favoriteSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Profile from "./components/Profile";
+import AllProducts from "./components/AllProducts";
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 function App() {
@@ -61,7 +62,13 @@ function App() {
         <NavBar />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="profile" element={<Profile />} />
+          <Route exact path="/profile" element={<Profile />} />
+          <Route path="/flash-deals" element={<AllProducts />} />
+          <Route path="/discover-new" element={<AllProducts />} />
+          <Route path="/1week-delivery" element={<AllProducts />} />
+          <Route path="/hot-sales" element={<AllProducts />} />
+          <Route path="/clearance-sale" element={<AllProducts />} />
+          <Route path="/top-sellers" element={<AllProducts />} />
         </Routes>
       </Router>
     </ChakraProvider>
