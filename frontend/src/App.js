@@ -2,13 +2,13 @@ import { CSSReset, ChakraProvider, useToast } from "@chakra-ui/react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 import { updateUser } from "./redux/slices/userSlice";
 import { updateCart } from "./redux/slices/cartSlice";
 import { updateFavorites } from "./redux/slices/favoriteSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Profile from "./components/Profile";
-import AllProducts from "./components/AllProducts";
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 function App() {
@@ -55,6 +55,8 @@ function App() {
     // eslint-disable-next-line
   }, [token]);
 
+
+
   return (
     <ChakraProvider>
       <CSSReset />
@@ -63,13 +65,14 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/profile" element={<Profile />} />
-          <Route path="/flash-deals" element={<AllProducts />} />
+          {/* <Route path="/flash-deals" element={<AllProducts />} />
           <Route path="/discover-new" element={<AllProducts />} />
           <Route path="/1week-delivery" element={<AllProducts />} />
           <Route path="/hot-sales" element={<AllProducts />} />
           <Route path="/clearance-sale" element={<AllProducts />} />
-          <Route path="/top-sellers" element={<AllProducts />} />
+          <Route path="/top-sellers" element={<AllProducts />} /> */}
         </Routes>
+        <Footer />
       </Router>
     </ChakraProvider>
   );

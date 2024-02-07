@@ -25,7 +25,7 @@ import {
 import React from "react";
 import logo from "../logo.svg";
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaSearch, FaUser, FaHeart, FaHamburger, FaCaretRight } from "react-icons/fa";
+import { FaShoppingCart, FaSearch, FaUser, FaHeart, FaHamburger, FaCaretRight, FaShoppingBag, FaWrench, FaUserClock, FaPowerOff } from "react-icons/fa";
 import { LoginButton } from "./CommonButtons";
 import { useSelector } from "react-redux";
 const cloudinaryUrl = process.env.REACT_APP_CLOUDINARY_URL;
@@ -156,12 +156,12 @@ export default function NavBar() {
                   </MenuButton>
                   <MenuList>
                     <ChakraLink as={Link} to={"/profile"}>
-                      <MenuItem>Profile</MenuItem>
+                      <MenuItem as={Button} leftIcon={<FaUser />}>Profile</MenuItem>
                     </ChakraLink>
-                    <MenuItem>My Orders</MenuItem>
-                    <MenuItem>Settings</MenuItem>
-                    <MenuItem>Become a Seller</MenuItem>
-                    <MenuItem onClick={onOpen}>Log Out</MenuItem>
+                    <MenuItem as={Button} leftIcon={<FaShoppingBag />}>My Orders</MenuItem>
+                    <MenuItem as={Button} leftIcon={<FaWrench />}>Settings</MenuItem>
+                    <MenuItem as={Button} leftIcon={<FaUserClock />}>Become a Seller</MenuItem>
+                    <MenuItem onClick={onOpen} as={Button} leftIcon={<FaPowerOff />}>Log Out</MenuItem>
                     <AlertDialog isOpen={isOpen} onClose={onClose}>
                       <AlertDialogOverlay>
                         <AlertDialogContent>

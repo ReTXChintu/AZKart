@@ -3,12 +3,13 @@ import Slider from "react-slick";
 import { Box, Image } from "@chakra-ui/react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import image4 from "../images/corousal4.jpeg";
-import image5 from "../images/corousal5.jpg";
-import image6 from "../images/corousal6.jpg";
+import image1 from "../images/corousal1.webp";
+import image2 from "../images/corousal2.webp";
+import image3 from "../images/corousal3.webp";
+import image4 from "../images/corousal4.webp";
 
 const Corousel = () => {
-  const images = [image4, image5, image6];
+  const images = [image1, image2, image3, image4];
   const settings = {
     dots: true,
     infinite: true,

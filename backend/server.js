@@ -17,6 +17,7 @@ const addToCartRoute = require("./routes/addToCart");
 const removeFromCartRoute = require("./routes/removeFromCart");
 const addToFavRoute = require("./routes/addToFav");
 const removeFromFavRoute = require("./routes/removeFromFav");
+const addProductRoute = require("./routes/addProduct");
 
 app.use(cors());
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use("/addToFav", addToFavRoute);
 app.use("/removeFromFav", removeFromFavRoute);
 app.use("/addToCart", addToCartRoute);
 app.use("/removeFromCart", removeFromCartRoute);
+app.use("/addProduct", addProductRoute);
 
 app.listen(PORT, (req, res) => {
   console.log("SERVER RUNNING ON PORT: ", PORT);
