@@ -17,6 +17,7 @@ import {
   VStack,
   useDisclosure,
   useToast,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 import {
   FaCartPlus,
@@ -32,8 +33,12 @@ import {
 } from "react-icons/fa";
 import { changeToken } from "../redux/slices/tokenSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFavorites } from "../redux/slices/favoriteSlice";
-import { updateCart } from "../redux/slices/cartSlice";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../redux/slices/favoriteSlice";
+import { addToCart, removeFromCart } from "../redux/slices/cartSlice";
+import { Link } from "react-router-dom";
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 export function LoginButton() {
@@ -294,7 +299,7 @@ export function FavoriteButton({ product }) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const favorites = useSelector((state) => state.favorites);
-  const isFavorite = favorites.includes(product.id);
+  const isFavorite = true; //favorites.find((favorite) => favorite._id === product._id);
 
   const addToFav = async () => {
     const response = await fetch(`${serverUrl}/addToFav`, {
@@ -303,7 +308,7 @@ export function FavoriteButton({ product }) {
         authorization: token,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ productId: product.id }),
+      body: JSON.stringify({ productId: product._id }),
     });
 
     const result = await response.json();
@@ -318,7 +323,7 @@ export function FavoriteButton({ product }) {
       return;
     }
 
-    dispatch(updateFavorites(result.favorites));
+    dispatch(addToFavorites(result.product));
   };
 
   const removeFromFav = async () => {
@@ -328,7 +333,7 @@ export function FavoriteButton({ product }) {
         authorization: token,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ productId: product.id }),
+      body: JSON.stringify({ productId: product._id }),
     });
 
     const result = await response.json();
@@ -343,7 +348,7 @@ export function FavoriteButton({ product }) {
       return;
     }
 
-    dispatch(updateFavorites(result.favorites));
+    dispatch(removeFromFavorites(result.product));
   };
 
   const toggleFavorite = async () => {
@@ -377,7 +382,7 @@ export function AddToCartButton({ productId }) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
 
-  const addToCart = async () => {
+  const addToCartfunction = async () => {
     const response = await fetch(`${serverUrl}/addToCart`, {
       method: "POST",
       headers: {
@@ -399,10 +404,10 @@ export function AddToCartButton({ productId }) {
       return;
     }
 
-    dispatch(updateCart(result.cart));
+    dispatch(addToCart(result.product));
   };
 
-  const removeFromCart = async () => {
+  const removeFromCartFunction = async () => {
     const response = await fetch(`${serverUrl}/removeFromCart`, {
       method: "POST",
       headers: {
@@ -424,15 +429,23 @@ export function AddToCartButton({ productId }) {
       return;
     }
 
-    dispatch(updateCart(result.cart));
+    dispatch(removeFromCart(result.product));
   };
 
   return isInCart ? (
-    <Button colorScheme="telegram" rightIcon={<FaShoppingCart />} onClick={removeFromCart}>
+    <Button
+      colorScheme="telegram"
+      rightIcon={<FaShoppingCart />}
+      onClick={removeFromCartFunction}
+    >
       Remove from cart
     </Button>
   ) : (
-    <Button colorScheme="telegram" rightIcon={<FaCartPlus />} onClick={addToCart}>
+    <Button
+      colorScheme="telegram"
+      rightIcon={<FaCartPlus />}
+      onClick={addToCartfunction}
+    >
       Add to cart
     </Button>
   );
@@ -443,5 +456,15 @@ export function ShareButton() {
     <Button colorScheme="purple" rightIcon={<FaShare />}>
       Share
     </Button>
+  );
+}
+
+export function SeeMore({ query }) {
+  return (
+    <ChakraLink as={Link} to={`/${query}`}>
+      <Button variant={"ghost"} fontSize={"xs"}>
+        See more
+      </Button>
+    </ChakraLink>
   );
 }

@@ -15,7 +15,6 @@ import {
   ModalCloseButton,
   Spacer,
 } from "@chakra-ui/react";
-import { fakePriceGenerator } from "./utility";
 import {
   AddToCartButton,
   BuyNowButton,
@@ -26,20 +25,13 @@ import {
 const ProductCard = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [discount, setDiscount] = useState(0);
-  const [fakePrice, setFakePrice] = useState(0);
-  function truncateText(text) {
-    if (text.length <= 16) return text;
-    else {
-      let res = text.slice(0, 16);
-      return `${res}...`;
-    }
-  }
 
   useEffect(() => {
-    const fakePriceFunction = fakePriceGenerator(product.price);
-
-    setDiscount(fakePriceFunction.discount);
-    setFakePrice(fakePriceFunction.fakePrice);
+    setDiscount(
+      Math.floor(
+        ((product.fakePrice - product.price) / product.fakePrice) * 100
+      )
+    );
   }, [product]);
 
   return (
@@ -53,6 +45,11 @@ const ProductCard = ({ product }) => {
       bgColor={"#f7f7f7"}
       onClick={onOpen}
       position={"relative"}
+      my={3}
+      _hover={{
+        transform: "translateY(-5px)",
+        boxShadow: "xl",
+      }}
     >
       <Center p={2} borderRadius={"10px"} w={"100%"} h={"200px"}>
         <Image
@@ -61,17 +58,16 @@ const ProductCard = ({ product }) => {
           borderRadius="md"
           maxH={"190px"}
         />
+        <FavoriteButton />
       </Center>
       <VStack alignItems={"flex-start"}>
-        <Text whiteSpace={"nowrap"}>{truncateText(product.title)}</Text>
+        <Text noOfLines={1}>{product.title}</Text>
         <HStack spacing={2}>
           <HStack alignItems={"flex-start"} spacing={2}>
             <Text color={"#938C1A"} textDecor={"line-through"} fontSize={"sm"}>
-              ₹{(product.price * 100).toString().split(".")[0]}
+              ₹{product.fakePrice}
             </Text>
-            <Text color={"#938C1A"}>
-              ₹{(fakePrice * 100).toString().split(".")[0]}
-            </Text>
+            <Text color={"#938C1A"}>₹{product.price}</Text>
           </HStack>
           <Box
             bgColor={"#ff6e26"}
@@ -89,6 +85,7 @@ const ProductCard = ({ product }) => {
           </Box>
         </HStack>
       </VStack>
+
       <Modal isOpen={isOpen} onClose={onClose} size={"xl"} isCentered>
         <ModalOverlay />
         <ModalContent>
@@ -97,8 +94,8 @@ const ProductCard = ({ product }) => {
           <ModalBody>
             <VStack w={"100%"}>
               <HStack w={"100%"}>
-                <Box position={"relative"} w={"300%"}>
-                  <Image src={product.image} w={"100%"} />
+                <Box position={"relative"} maxW={"50%"}>
+                  <Image src={product.image} />
                   <FavoriteButton product={product} />
                 </Box>
                 <VStack alignItems={"flex-start"} h={"100%"}>
@@ -108,22 +105,22 @@ const ProductCard = ({ product }) => {
                   <Spacer />
                   <HStack>
                     {discount > 0 && (
-                      <>
+                      <VStack>
                         <Text
                           color={"#938C1A"}
-                          fontSize={"lg"}
+                          fontSize={"sm"}
                           fontWeight={"bold"}
                           textDecor={"line-through"}
                         >
-                          ₹{(product.price * 100).toString().split(".")[0]}
+                          ₹{product.fakePrice}
                         </Text>
                         <Text color={"red"} fontSize={"xs"} fontWeight={"bold"}>
                           {discount}% off
                         </Text>
-                      </>
+                      </VStack>
                     )}
                     <Text color={"#938C1A"} fontSize={"lg"} fontWeight={"bold"}>
-                      ₹{(fakePrice * 100).toString().split(".")[0]}
+                      ₹{product.price}
                     </Text>
                   </HStack>
                 </VStack>
