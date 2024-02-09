@@ -20,7 +20,7 @@ router.post("/", authenticateUser, async (req, res) => {
 
     res.status(200).json({product});
   } catch (error) {
-    res.status(500).json("Internal Server Error");
+    res.status(500).json({message: "Internal Server Error"});
     console.log(error);
   }
 });

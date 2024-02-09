@@ -19,9 +19,7 @@ const removeFromCartRoute = require("./routes/removeFromCart");
 const addToFavRoute = require("./routes/addToFav");
 const removeFromFavRoute = require("./routes/removeFromFav");
 const addProductRoute = require("./routes/addProduct");
-const getFlashDealsRoute = require("./routes/getFlashDeals");
-const getNewProductsRoute = require("./routes/getNewProducts");
-const getHotSalesRoute = require("./routes/getHotSales");
+const getSaleProductsRoute = require("./routes/getSaleProducts");
 
 app.use(cors());
 app.use(express.json());
@@ -34,9 +32,7 @@ app.use("/removeFromFav", removeFromFavRoute);
 app.use("/addToCart", addToCartRoute);
 app.use("/removeFromCart", removeFromCartRoute);
 app.use("/addProduct", addProductRoute);
-app.use("/getFlashDeals", getFlashDealsRoute);
-app.use("/getNewProducts", getNewProductsRoute);
-app.use("/getHotSales", getHotSalesRoute);
+app.use("/getSaleProducts", getSaleProductsRoute);
 
 app.listen(PORT, (req, res) => {
   console.log("SERVER RUNNING ON PORT: ", PORT);

@@ -26,7 +26,6 @@ import {
   FaEyeSlash,
   FaHeart,
   FaKey,
-  FaShare,
   FaShoppingBag,
   FaShoppingCart,
   FaUser,
@@ -294,12 +293,13 @@ export function LoginButton() {
   );
 }
 
-export function FavoriteButton({ product }) {
-  const toast = useToast();
+export function FavoriteButton({ productId }) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const favorites = useSelector((state) => state.favorites);
-  const isFavorite = true; //favorites.find((favorite) => favorite._id === product._id);
+  const isFavorite =
+    favorites.find((favoriteProduct) => favoriteProduct._id === productId) !==
+    undefined;
 
   const addToFav = async () => {
     const response = await fetch(`${serverUrl}/addToFav`, {
@@ -308,18 +308,13 @@ export function FavoriteButton({ product }) {
         authorization: token,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ productId: product._id }),
+      body: JSON.stringify({ productId: productId }),
     });
 
     const result = await response.json();
 
     if (!response.ok) {
-      toast({
-        title: "Adding to favorites failed",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      console.log(`Failed to add to favorites: ${result.message}`);
       return;
     }
 
@@ -333,25 +328,21 @@ export function FavoriteButton({ product }) {
         authorization: token,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ productId: product._id }),
+      body: JSON.stringify({ productId: productId }),
     });
 
     const result = await response.json();
 
     if (!response.ok) {
-      toast({
-        title: "Adding to favorites failed",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      console.log(`Failed to remove from favorites: ${result.message}`);
       return;
     }
 
-    dispatch(removeFromFavorites(result.product));
+    dispatch(removeFromFavorites(result.productId));
   };
 
-  const toggleFavorite = async () => {
+  const toggleFavorite = async (event) => {
+    event.stopPropagation();
     !isFavorite ? await addToFav() : await removeFromFav();
   };
 
@@ -377,7 +368,8 @@ export function BuyNowButton() {
 
 export function AddToCartButton({ productId }) {
   const cart = useSelector((state) => state.cart);
-  const isInCart = cart.includes(productId);
+  const isInCart =
+    cart.find((cartProduct) => cartProduct._id === productId) !== undefined;
   const toast = useToast();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
@@ -401,6 +393,7 @@ export function AddToCartButton({ productId }) {
         duration: 3000,
         isClosable: true,
       });
+      console.log("Adding to cart failed: ", result.message);
       return;
     }
 
@@ -429,7 +422,7 @@ export function AddToCartButton({ productId }) {
       return;
     }
 
-    dispatch(removeFromCart(result.product));
+    dispatch(removeFromCart(result.productId));
   };
 
   return isInCart ? (
@@ -447,14 +440,6 @@ export function AddToCartButton({ productId }) {
       onClick={addToCartfunction}
     >
       Add to cart
-    </Button>
-  );
-}
-
-export function ShareButton() {
-  return (
-    <Button colorScheme="purple" rightIcon={<FaShare />}>
-      Share
     </Button>
   );
 }

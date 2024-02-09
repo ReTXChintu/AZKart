@@ -25,10 +25,21 @@ import {
 import React from "react";
 import logo from "../logo.svg";
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaSearch, FaUser, FaHeart, FaHamburger, FaCaretRight, FaShoppingBag, FaWrench, FaUserClock, FaPowerOff } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaSearch,
+  FaUser,
+  FaHeart,
+  FaHamburger,
+  FaCaretRight,
+  FaShoppingBag,
+  FaWrench,
+  FaUserClock,
+  FaPowerOff,
+  FaHeadset,
+} from "react-icons/fa";
 import { LoginButton } from "./CommonButtons";
 import { useSelector } from "react-redux";
-const cloudinaryUrl = process.env.REACT_APP_CLOUDINARY_URL;
 
 export default function NavBar() {
   const user = useSelector((state) => state.user);
@@ -52,26 +63,26 @@ export default function NavBar() {
         >
           <Image src={logo} w={"70px"}></Image>
 
-          <VStack w={"60%"} alignItems={"flex-start"}>
-            <InputGroup display={{ base: "none", md: "block" }} w={"100%"}>
-              <Input
-                size={"md"}
-                type="text"
-                placeholder="wltoys"
-                border={"2px solid black"}
-                backgroundColor={"white"}
+          {/* <VStack alignItems={"flex-start"}> */}
+          <InputGroup display={{ base: "none", md: "block" }} w={"60%"}>
+            <Input
+              size={"md"}
+              type="text"
+              placeholder="wltoys"
+              border={"2px solid black"}
+              backgroundColor={"white"}
+            />
+            <InputRightElement>
+              <IconButton
+                icon={<FaSearch color="white" />}
+                maxH={"90%"}
+                backgroundColor={"#ff6e26"}
+                _hover={{ backgroundColor: "#ff6e30" }}
               />
-              <InputRightElement>
-                <IconButton
-                  icon={<FaSearch color="white" />}
-                  maxH={"90%"}
-                  backgroundColor={"#ff6e26"}
-                  _hover={{ backgroundColor: "#ff6e30" }}
-                />
-              </InputRightElement>
-            </InputGroup>
+            </InputRightElement>
+          </InputGroup>
 
-            <HStack color={"gray.300"} fontSize={"xs"} display={{base: "none", md: "flex"}}>
+          {/* <HStack color={"gray.300"} fontSize={"xs"} display={{base: "none", md: "flex"}}>
               <Text>power bank</Text>
               <Text>anbernic</Text>
               <Text>tablet</Text>
@@ -80,8 +91,8 @@ export default function NavBar() {
               <Text>zeblaze</Text>
               <Text>walksnail</Text>
               <Text>rccar</Text>
-            </HStack>
-          </VStack>
+            </HStack> */}
+          {/* </VStack> */}
 
           <HStack>
             <IconButton
@@ -149,19 +160,37 @@ export default function NavBar() {
                 <Menu>
                   <MenuButton>
                     <Avatar
-                      src={`${cloudinaryUrl}/${user.photo}`}
+                      src={`${user.photo}`}
                       name={user.name}
                       size={"sm"}
                     />
                   </MenuButton>
                   <MenuList>
                     <ChakraLink as={Link} to={"/profile"}>
-                      <MenuItem as={Button} leftIcon={<FaUser />}>Profile</MenuItem>
+                      <MenuItem as={Button} leftIcon={<FaUser />}>
+                        Profile
+                      </MenuItem>
                     </ChakraLink>
-                    <MenuItem as={Button} leftIcon={<FaShoppingBag />}>My Orders</MenuItem>
-                    <MenuItem as={Button} leftIcon={<FaWrench />}>Settings</MenuItem>
-                    <MenuItem as={Button} leftIcon={<FaUserClock />}>Become a Seller</MenuItem>
-                    <MenuItem onClick={onOpen} as={Button} leftIcon={<FaPowerOff />}>Log Out</MenuItem>
+                    <MenuItem as={Button} leftIcon={<FaShoppingBag />}>
+                      My Orders
+                    </MenuItem>
+                    <MenuItem as={Button} leftIcon={<FaUserClock />}>
+                      Become a Seller
+                    </MenuItem>
+                    <MenuItem as={Button} leftIcon={<FaWrench />}>
+                      Settings
+                    </MenuItem>
+                    <MenuItem as={Button} leftIcon={<FaHeadset />}>
+                      Help
+                    </MenuItem>
+                    <MenuItem
+                      onClick={onOpen}
+                      as={Button}
+                      leftIcon={<FaPowerOff />}
+                      _hover={{color: "red"}}
+                    >
+                      Log Out
+                    </MenuItem>
                     <AlertDialog isOpen={isOpen} onClose={onClose}>
                       <AlertDialogOverlay>
                         <AlertDialogContent>
@@ -197,7 +226,7 @@ export default function NavBar() {
                 />
               )}
 
-              <VStack spacing={0}>
+              <VStack spacing={0} display={{base: "none", md: "flex"}}>
                 <Text color={"white"}>Hello</Text>
                 {user ? (
                   <Text color={"white"}>{user.name.split(" ")[0]}</Text>
@@ -221,49 +250,47 @@ export default function NavBar() {
           >
             CATEGORIES
           </Button>
-          <HStack color={"white"} spacing={5} display={{base: "none", md: "flex"}}>
-            <Text
-              fontWeight={"bold"}
-              cursor={"pointer"}
-              _hover={{ color: "#ff6e26" }}
-            >
-              Flash Deals
-            </Text>
-            <Text
-              fontWeight={"bold"}
-              cursor={"pointer"}
-              _hover={{ color: "#ff6e26" }}
-            >
-              1-Week Delivery
-            </Text>
-            <Text
-              fontWeight={"bold"}
-              cursor={"pointer"}
-              _hover={{ color: "#ff6e26" }}
-            >
-              Clearance Sale
-            </Text>
-            <Text
-              fontWeight={"bold"}
-              cursor={"pointer"}
-              _hover={{ color: "#ff6e26" }}
-            >
-              Discover New
-            </Text>
-            <Text
-              fontWeight={"bold"}
-              cursor={"pointer"}
-              _hover={{ color: "#ff6e26" }}
-            >
-              Top Sellers
-            </Text>
-            <Text
-              fontWeight={"bold"}
-              cursor={"pointer"}
-              _hover={{ color: "#ff6e26" }}
-            >
-              Live
-            </Text>
+          <HStack
+            color={"white"}
+            spacing={5}
+            display={{ base: "none", md: "flex" }}
+          >
+            <ChakraLink as={Link} to={"/flash-deals"}>
+              <Text
+                fontWeight={"bold"}
+                cursor={"pointer"}
+                _hover={{ color: "#ff6e26" }}
+              >
+                Flash Deals
+              </Text>
+            </ChakraLink>
+            <ChakraLink as={Link} to={"/clearance-sale"}>
+              <Text
+                fontWeight={"bold"}
+                cursor={"pointer"}
+                _hover={{ color: "#ff6e26" }}
+              >
+                Clearance Sale
+              </Text>
+            </ChakraLink>
+            <ChakraLink as={Link} to={"/discover-new"}>
+              <Text
+                fontWeight={"bold"}
+                cursor={"pointer"}
+                _hover={{ color: "#ff6e26" }}
+              >
+                Discover New
+              </Text>
+            </ChakraLink>
+            <ChakraLink as={Link} to={"/top-sellers"}>
+              <Text
+                fontWeight={"bold"}
+                cursor={"pointer"}
+                _hover={{ color: "#ff6e26" }}
+              >
+                Top Sellers
+              </Text>
+            </ChakraLink>
           </HStack>
         </HStack>
       </VStack>

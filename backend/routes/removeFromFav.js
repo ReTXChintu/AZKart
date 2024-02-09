@@ -13,9 +13,9 @@ router.post("/", authenticateUser, async (req, res) => {
 
     user.favorites.pull(productId);
 
-    const newUser = await user.save();
+    await user.save();
 
-    res.status(200).json({ favorites: newUser.favorites });
+    res.status(200).json({ productId });
   } catch (error) {
     res.status(500).json("Internal Server Error");
     console.log(error);

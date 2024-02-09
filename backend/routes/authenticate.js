@@ -8,27 +8,17 @@ router.get("/", authenticateUser, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
 
-    // Aggregating products in user's cart
-    const cartProducts = await Product.aggregate([
-      {
-        $match: {
-          _id: { $in: user.cart },
-        },
-      },
-    ]);
+    // Fetch cart products
+    const cartProducts = await Product.find({ _id: { $in: user.cart } });
 
-    // Aggregating products in user's favorites
-    const favoriteProducts = await Product.aggregate([
-      {
-        $match: {
-          _id: { $in: user.favorites },
-        },
-      },
-    ]);
+    // Fetch favorite products
+    const favoriteProducts = await Product.find({
+      _id: { $in: user.favorites },
+    });
 
-    // Assigning the aggregated products to user's cart and favorites
-    user.cart = cartProducts;
-    user.favorites = favoriteProducts;
+    // Assign fetched products to user object
+    user.cart = cartProducts ? cartProducts : [];
+    user.favorites = favoriteProducts ? favoriteProducts : [];
 
     res.status(200).json({ user: user });
   } catch (error) {

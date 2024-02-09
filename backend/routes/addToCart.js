@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/userSchema");
 const authenticateUser = require("../middlewares/authenticateUser");
+const Product = require("../models/productSchema");
 
 router.post("/", authenticateUser, async (req, res) => {
   const { productId } = req.body;
@@ -15,7 +16,9 @@ router.post("/", authenticateUser, async (req, res) => {
 
     const newUser = await user.save();
 
-    res.status(200).json({ cart: newUser.cart });
+    const product = await Product.findById(productId);
+
+    res.status(200).json({ product });
   } catch (error) {
     res.status(500).json("Internal Server Error");
     console.log(error);

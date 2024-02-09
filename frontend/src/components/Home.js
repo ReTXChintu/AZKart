@@ -13,12 +13,15 @@ export default function Home() {
 
   useEffect(() => {
     const getFlashDeals = async () => {
-      const response = await fetch(`${serverUrl}/getFlashDeals`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${serverUrl}/getSaleProducts?saleName=${"Flash Deal"}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const result = await response.json();
 
@@ -26,16 +29,19 @@ export default function Home() {
         console.log(`Error fetching product: ${result.message}`);
       }
 
-      setFlashSale(result.flashDeals);
+      setFlashSale(result.saleProducts);
     };
 
     const getNewProducts = async () => {
-      const response = await fetch(`${serverUrl}/getNewProducts`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${serverUrl}/getSaleProducts?saleName=${"New"}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const result = await response.json();
 
@@ -43,16 +49,19 @@ export default function Home() {
         console.log(`Error fetching product: ${result.message}`);
       }
 
-      setDiscoverNew(result.newProducts);
+      setDiscoverNew(result.saleProducts);
     };
 
     const getHotSales = async () => {
-      const response = await fetch(`${serverUrl}/getHotSales`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${serverUrl}/getSaleProducts?saleName=${"Hot Sale"}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const result = await response.json();
 
@@ -60,7 +69,7 @@ export default function Home() {
         console.log(`Error fetching product: ${result.message}`);
       }
 
-      setHotSales(result.hotSales);
+      setHotSales(result.saleProducts);
     };
 
     getFlashDeals();

@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Profile from "./components/Profile";
 import AllProducts from "./components/AllProducts";
+import Cart from "./components/Cart";
+import Favorites from "./components/Favorites";
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 function App() {
@@ -64,57 +66,45 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/favorites" element={<Favorites />} />
+          <Route exact path="/orders" element={<Favorites />} />
+          <Route exact path="/settings" element={<Favorites />} />
+          <Route exact path="/help" element={<Favorites />} />
           <Route
+            exact
             path="/flash-deals"
             element={
-              <AllProducts
-                title={"Fla⚡️h Deals"}
-                productUrl={`${serverUrl}/getFlashDeals`}
-              />
+              <AllProducts title={"Fla⚡️h Deals"} saleName={"Flash Deal"} />
             }
           />
           <Route
+            exact
             path="/discover-new"
-            element={
-              <AllProducts
-                title={"Discover New"}
-                productUrl={`${serverUrl}/getNewProducts`}
-              />
-            }
+            element={<AllProducts title={"Discover New"} saleName={"New"} />}
           />
           <Route
+            exact
             path="/hot-sales"
-            element={
-              <AllProducts
-                title={"H🔥t Sales"}
-                productUrl={`${serverUrl}/getHotSales`}
-              />
-            }
+            element={<AllProducts title={"H🔥t Sales"} saleName={"Hot Sale"} />}
           />
           <Route
-            path="/1week-delivery"
-            element={
-              <AllProducts
-                title={"1-Week Delivery"}
-                productUrl={`${serverUrl}/getHotSales`}
-              />
-            }
-          />
-          <Route
+            exact
             path="/clearance-sale"
             element={
               <AllProducts
                 title={"Clearance Sale"}
-                productUrl={`${serverUrl}/getHotSales`}
+                saleName={"Clearance Sale"}
               />
             }
           />
           <Route
+            exact
             path="/top-sellers"
             element={
               <AllProducts
                 title={"Top Sellers"}
-                productUrl={`${serverUrl}/getHotSales`}
+                saleName={"Top Seller"}
               />
             }
           />

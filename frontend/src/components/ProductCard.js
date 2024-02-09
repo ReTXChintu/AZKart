@@ -14,13 +14,14 @@ import {
   ModalBody,
   ModalCloseButton,
   Spacer,
+  ModalFooter,
 } from "@chakra-ui/react";
 import {
   AddToCartButton,
   BuyNowButton,
   FavoriteButton,
-  ShareButton,
 } from "./CommonButtons";
+import "../App.css";
 
 const ProductCard = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,6 +47,7 @@ const ProductCard = ({ product }) => {
       onClick={onOpen}
       position={"relative"}
       my={3}
+      mx={"auto"}
       _hover={{
         transform: "translateY(-5px)",
         boxShadow: "xl",
@@ -58,16 +60,23 @@ const ProductCard = ({ product }) => {
           borderRadius="md"
           maxH={"190px"}
         />
-        <FavoriteButton />
+        <FavoriteButton productId={product._id} />
       </Center>
       <VStack alignItems={"flex-start"}>
         <Text noOfLines={1}>{product.title}</Text>
         <HStack spacing={2}>
           <HStack alignItems={"flex-start"} spacing={2}>
-            <Text color={"#938C1A"} textDecor={"line-through"} fontSize={"sm"}>
+            <Text
+              color={"#938C1A"}
+              fontSize={"xs"}
+              fontWeight={"bold"}
+              textDecor={"line-through"}
+            >
               ₹{product.fakePrice}
             </Text>
-            <Text color={"#938C1A"}>₹{product.price}</Text>
+            <Text color={"#938C1A"} fontSize={"sm"} fontWeight={"bold"}>
+              ₹{product.price}
+            </Text>
           </HStack>
           <Box
             bgColor={"#ff6e26"}
@@ -92,47 +101,45 @@ const ProductCard = ({ product }) => {
           <ModalHeader>{product.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <VStack w={"100%"}>
-              <HStack w={"100%"}>
-                <Box position={"relative"} maxW={"50%"}>
-                  <Image src={product.image} />
-                  <FavoriteButton product={product} />
+            <HStack w={"100%"}>
+              <Box position={"relative"} w={"50%"}>
+                <Image src={product.image} alt={product.name} />
+                <FavoriteButton productId={product._id} />
+              </Box>
+              <VStack alignItems={"flex-start"} h={"100%"} w={"50%"}>
+                <Box maxH={"200px"} overflowY={"auto"}>
+                  <Text textAlign={"justify"}>{product.description}</Text>
                 </Box>
-                <VStack alignItems={"flex-start"} h={"100%"}>
-                  <Box maxH={"200px"} overflowY={"auto"}>
-                    <Text textAlign={"justify"}>{product.description}</Text>
-                  </Box>
-                  <Spacer />
-                  <HStack>
-                    {discount > 0 && (
-                      <VStack>
-                        <Text
-                          color={"#938C1A"}
-                          fontSize={"sm"}
-                          fontWeight={"bold"}
-                          textDecor={"line-through"}
-                        >
-                          ₹{product.fakePrice}
-                        </Text>
-                        <Text color={"red"} fontSize={"xs"} fontWeight={"bold"}>
-                          {discount}% off
-                        </Text>
-                      </VStack>
-                    )}
-                    <Text color={"#938C1A"} fontSize={"lg"} fontWeight={"bold"}>
-                      ₹{product.price}
-                    </Text>
-                  </HStack>
-                </VStack>
-              </HStack>
-
-              <HStack>
-                <BuyNowButton />
-                <AddToCartButton productId={product.id} />
-                <ShareButton />
-              </HStack>
-            </VStack>
+                <Spacer />
+                <HStack>
+                  {discount > 0 && (
+                    <VStack>
+                      <Text
+                        color={"#938C1A"}
+                        fontSize={"sm"}
+                        fontWeight={"bold"}
+                        textDecor={"line-through"}
+                      >
+                        ₹{product.fakePrice}
+                      </Text>
+                      <Text color={"red"} fontSize={"xs"} fontWeight={"bold"}>
+                        {discount}% off
+                      </Text>
+                    </VStack>
+                  )}
+                  <Text color={"#938C1A"} fontSize={"lg"} fontWeight={"bold"}>
+                    ₹{product.price}
+                  </Text>
+                </HStack>
+              </VStack>
+            </HStack>
           </ModalBody>
+          <ModalFooter>
+            <HStack>
+              <BuyNowButton />
+              <AddToCartButton productId={product._id} />
+            </HStack>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </Box>

@@ -15,7 +15,7 @@ router.post("/", authenticateUser, async (req, res) => {
 
     const newUser = await user.save();
 
-    res.status(200).json({ cart: newUser.cart });
+    res.status(200).json({ productId });
   } catch (error) {
     res.status(500).json("Internal Server Error");
     console.log(error);

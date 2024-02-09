@@ -2,20 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const cartSlice = createSlice({
   name: "Cart",
-  initialState: null,
+  initialState: [],
   reducers: {
     setCart: (state, action) => {
       return action.payload;
     },
     addToCart: (state, action) => {
-      return [...state.cart, action.payload];
+      return [action.payload, ...state];
     },
     removeFromCart: (state, action) => {
       // Get the _id of the product to remove from the payload
       const productIdToRemove = action.payload;
 
       // Filter out the product with the specified _id
-      const updatedCart = state.cart.filter(
+      const updatedCart = state.filter(
         (product) => product._id !== productIdToRemove
       );
 

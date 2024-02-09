@@ -9,8 +9,9 @@ import {
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ProductCard from "./ProductCard";
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-export default function AllProducts({ title, productUrl }) {
+export default function AllProducts({ title, saleName }) {
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -18,13 +19,13 @@ export default function AllProducts({ title, productUrl }) {
   const fetchProducts = async () => {
     try {
       const response = await fetch(
-        `${productUrl}?pageNumber=${pageNumber}&pageSize=30`
+        `${serverUrl}/getSaleProducts?saleName=${saleName}&pageNumber=${pageNumber}&pageSize=30`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch products");
       }
-      const data = await response.json();
-      const newProducts = data.flashDeals;
+      const result = await response.json();
+      const newProducts = result.saleProducts;
       setProducts((prevProducts) => [...prevProducts, ...newProducts]);
       setPageNumber((prevPageNumber) => prevPageNumber + 1);
       if (newProducts.length === 0) {
@@ -36,9 +37,12 @@ export default function AllProducts({ title, productUrl }) {
   };
 
   useEffect(() => {
+    setProducts([]);
+    setPageNumber(1);
+    setHasMore(true);
     fetchProducts();
     // eslint-disable-next-line
-  }, []);
+  }, [title, saleName]);
 
   return (
     <Center bgColor={"#f7f7f7"}>

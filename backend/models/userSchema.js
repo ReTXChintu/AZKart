@@ -30,12 +30,14 @@ var userSchema = new mongoose.Schema(
     },
     favorites: [
       {
-        type: Number,
+        type: mongoose.Types.ObjectId,
+        ref: "product",
       },
     ],
     cart: [
       {
-        type: Number,
+        type: mongoose.Types.ObjectId,
+        ref: "product",
       },
     ],
   },
