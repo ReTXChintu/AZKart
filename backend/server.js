@@ -21,12 +21,12 @@ const removeFromFavRoute = require("./routes/removeFromFav");
 const addProductRoute = require("./routes/addProduct");
 const getSaleProductsRoute = require("./routes/getSaleProducts");
 
-if (process.env.NODE_ENV === "production")
-  app.use(
-    cors({ origin: "https://azkart.netlify.app", methods: ["GET", "POST"] })
-  );
-else
-  app.use(cors({ origin: "http://localhost:3000", methods: ["GET", "POST"] }));
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://azkart.netlify.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 app.use(express.json());
 app.use(morgan("tiny"));
