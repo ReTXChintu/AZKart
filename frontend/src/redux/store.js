@@ -3,6 +3,7 @@ import tokenReducer from "./slices/tokenSlice";
 import userReducer from "./slices/userSlice";
 import cartReducer from "./slices/cartSlice";
 import favoriteReducer from "./slices/favoriteSlice";
+import loaderReducer from "./slices/loaderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     user: userReducer,
     cart: cartReducer,
     favorites: favoriteReducer,
+    loader: loaderReducer
   },
   devTools: true,
 });

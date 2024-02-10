@@ -17,6 +17,7 @@ const serverUrl = process.env.REACT_APP_SERVER_URL;
 function App() {
   const toast = useToast();
   const token = useSelector((state) => state.token);
+
   const dispatch = useDispatch();
   useEffect(() => {
     const authenticateUser = async () => {
@@ -102,10 +103,7 @@ function App() {
             exact
             path="/top-sellers"
             element={
-              <AllProducts
-                title={"Top Sellers"}
-                saleName={"Top Seller"}
-              />
+              <AllProducts title={"Top Sellers"} saleName={"Top Seller"} />
             }
           />
         </Routes>

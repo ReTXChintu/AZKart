@@ -46,7 +46,7 @@ export function LoginButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLogin, setIsLogin] = useState(true);
   const [isPassword, setIsPassword] = useState(true);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [logEmail, setLogEmail] = useState("");
   const [logPass, setLogPass] = useState("");
   const [name, setName] = useState("");
@@ -55,6 +55,7 @@ export function LoginButton() {
   const [cPassword, setCPassword] = useState("");
 
   const login = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(`${serverUrl}/login`, {
         method: "POST",
@@ -87,10 +88,13 @@ export function LoginButton() {
       dispatch(changeToken(result.token));
     } catch (error) {
       console.log(error);
+    } finally{
+      setIsLoading(false);
     }
   };
 
   const signup = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch(`${serverUrl}/signup`, {
         method: "POST",
@@ -124,6 +128,8 @@ export function LoginButton() {
       onClose();
     } catch (error) {
       console.log(error);
+    } finally{
+      setIsLoading(false);
     }
   };
 
@@ -191,6 +197,7 @@ export function LoginButton() {
                       variant={"solid"}
                       colorScheme="blue"
                       onClick={login}
+                      isLoading={isLoading}
                     >
                       Login
                     </Button>
@@ -267,7 +274,7 @@ export function LoginButton() {
                     />
                   </InputGroup>
 
-                  <Button variant={"solid"} colorScheme="blue" onClick={signup}>
+                  <Button variant={"solid"} colorScheme="blue" onClick={signup} isLoading={isLoading}>
                     Sign Up
                   </Button>
 
