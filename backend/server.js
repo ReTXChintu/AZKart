@@ -5,7 +5,7 @@ require("dotenv").config();
 const db = require("./db/connect");
 const morgan = require("morgan");
 const PORT = process.env.SERVER_PORT || 8000;
-const Product = require("./models/productSchema");
+const path = require("path");
 
 //database connection
 db.mongoDB();
